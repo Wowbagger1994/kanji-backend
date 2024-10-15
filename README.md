@@ -54,7 +54,7 @@ The Makefile provides several targets that you can run to manage your applicatio
 
 # Full Setup and Execution
 
-Run all steps (installing dependencies, starting Docker, running migrations, and executing the Kanji loader) in one command. This command simplifies the setup process for development.
+Run all steps (installing dependencies, starting Docker, running migrations, executing the Kanji loader, and executing NestJS backend server) in one command. This command simplifies the setup process for development.
 
 ```bash
 make all

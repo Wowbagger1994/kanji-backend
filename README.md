@@ -1,6 +1,6 @@
-# Kanji Loader Makefile
+# Kanji Backend
 
-This repository contains a Makefile for setting up and managing the Kanji Loader application. The Makefile automates several tasks, including the installation of Python and npm dependencies, running Docker Compose, executing Prisma migrations, and running the Kanji loader script. This helps streamline the development and deployment processes.
+This repository contains kanji backend.
 
 ## Table of Contents
 

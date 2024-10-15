@@ -7,15 +7,15 @@ This repository contains a Makefile for setting up and managing the Kanji Loader
 - [Prerequisites](#prerequisites)
 - [Environment Variables](#environment-variables)
 - [Makefile Targets](#makefile-targets)
+  - [Full Setup and Execution](#full-setup-and-execution)
+  - [Start Backend](#start-backend)
+  - [Clean Up](#clean-up)
+  - [Force Clean](#force-clean)
   - [Install Python Requirements](#install-python-requirements)
   - [Install npm Packages](#install-npm-packages)
   - [Run Docker Compose](#run-docker-compose)
   - [Run Prisma Migrations](#run-prisma-migrations)
   - [Run Kanji Loader](#run-kanji-loader)
-  - [Start Backend](#start-backend)
-  - [Full Setup and Execution](#full-setup-and-execution)
-  - [Clean Up](#clean-up)
-  - [Force Clean](#force-clean)
 - [Logging](#logging)
 
 ## Prerequisites
@@ -51,6 +51,38 @@ openssl rand -base64 32
 ## Makefile Targets
 
 The Makefile provides several targets that you can run to manage your application easily. Each target corresponds to a specific task:
+
+# Full Setup and Execution
+
+Run all steps (installing dependencies, starting Docker, running migrations, and executing the Kanji loader) in one command. This command simplifies the setup process for development.
+
+```bash
+make all
+```
+
+# Start Backend
+
+Start the NestJS backend server, which serves your application’s API and handles incoming requests.
+
+```bash
+make start
+```
+
+# Clean Up
+
+Stop running Docker containers and clean up the environment. This command helps to maintain a tidy workspace by stopping services and removing unnecessary files.
+
+```bash
+make clean
+```
+
+# Force Clean
+
+Forcefully remove Docker containers, networks, volumes, and images. Use this command to clear everything related to Docker in case of errors or for a complete reset.
+
+```bash
+make fclean
+```
 
 # Install Python Requirements
 
@@ -90,38 +122,6 @@ Execute the Kanji loader script. This script is responsible for loading Kanji da
 
 ```bash
 make run-kanji-loader
-```
-
-# Start Backend
-
-Start the NestJS backend server, which serves your application’s API and handles incoming requests.
-
-```bash
-make start
-```
-
-# Full Setup and Execution
-
-Run all steps (installing dependencies, starting Docker, running migrations, and executing the Kanji loader) in one command. This command simplifies the setup process for development.
-
-```bash
-make all
-```
-
-# Clean Up
-
-Stop running Docker containers and clean up the environment. This command helps to maintain a tidy workspace by stopping services and removing unnecessary files.
-
-```bash
-make clean
-```
-
-# Force Clean
-
-Forcefully remove Docker containers, networks, volumes, and images. Use this command to clear everything related to Docker in case of errors or for a complete reset.
-
-```bash
-make fclean
 ```
 
 # Logging

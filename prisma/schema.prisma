@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Kanji {
+  id                  Int      @id @default(autoincrement()) // ID autoincrementale come chiave primaria
+  literal             String   @unique                      // Campo 'literal' univoco, ma non chiave primaria
+  codepoint_ucs       String   @unique                      // Codice UCS, opzionale
+  codepoint_jis208    String   @unique                      // Codice JIS, opzionale
+  radical_classical   Int?     // Numero radicale classico
+  radical_nelson_c    Int?     // Numero radicale nel dizionario Nelson
+  grade               Int      // Grado scolastico
+  stroke_count        Int      // Numero di tratti
+  dic_number_classical Int?    // Numero del dizionario classico, può essere NULL
+  dic_number_nelson_c Int?     // Numero del dizionario Nelson, può essere NULL
+  reading_ja_on       String?  // Lettura on giapponese, opzionale
+  reading_ja_kun      String?  // Lettura kun giapponese, opzionale
+  meaning_en          String[] // Significati in inglese (array di stringhe)
+  meaning_fr          String[] // Significati in francese (array di stringhe)
+  meaning_es          String[] // Significati in spagnolo (array di stringhe)
+  meaning_pt          String[] // Significati in portoghese (array di stringhe)
+  nanori              String[] // Varianti di lettura (array di stringhe)
+  is_base             Boolean  @default(false) // Indica se il kanji è base
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}

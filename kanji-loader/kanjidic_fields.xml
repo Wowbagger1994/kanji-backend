@@ -1,0 +1,44 @@
+<!-- Entry for Kanji: 亜 -->
+	<character>
+		<literal>亜</literal>
+		<codepoint>
+			<cp_value cp_type="ucs">4e9c</cp_value>
+			<cp_value cp_type="jis208">1-16-01</cp_value>
+		</codepoint>
+		<radical>
+			<rad_value rad_type="classical">7</rad_value>
+			<rad_value rad_type="nelson_c">1</rad_value>
+		</radical>
+		<misc>
+			<grade>8</grade> <!-- under level 7 -->
+			<stroke_count>7</stroke_count>
+		</misc>
+		<dic_number>
+		    <dic_ref dr_type="classical"><!-- https://www.unicode.org/Public/UCD/latest/ucd/CJKRadicals.txt if exist --></dic_ref>
+			<dic_ref dr_type="nelson_c">43</dic_ref>
+		</dic_number>
+		<reading_meaning>
+			<rmgroup>
+				<reading r_type="ja_on">ア</reading>
+				<reading r_type="ja_kun">つ.ぐ</reading>
+				<meaning>Asia</meaning>
+				<meaning>rank next</meaning>
+				<meaning>come after</meaning>
+				<meaning>-ous</meaning>
+				<meaning m_lang="fr">Asie</meaning>
+				<meaning m_lang="fr">suivant</meaning>
+				<meaning m_lang="fr">sub-</meaning>
+				<meaning m_lang="fr">sous-</meaning>
+				<meaning m_lang="es">pref. para indicar</meaning>
+				<meaning m_lang="es">venir después de</meaning>
+				<meaning m_lang="es">Asia</meaning>
+				<meaning m_lang="pt">Ásia</meaning>
+				<meaning m_lang="pt">próxima</meaning>
+				<meaning m_lang="pt">o que vem depois</meaning>
+				<meaning m_lang="pt">-ous</meaning>
+			</rmgroup>
+			<nanori>や</nanori>
+			<nanori>つぎ</nanori>
+			<nanori>つぐ</nanori>
+		</reading_meaning>
+	</character>

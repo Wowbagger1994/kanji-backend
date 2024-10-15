@@ -3,6 +3,10 @@ import pprint
 import pandas as pd
 from sqlalchemy import create_engine
 import ast
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Helper function to extract data from the XML structure
 def extract_data(root):
@@ -143,7 +147,8 @@ for col in list_columns:
     df[col] = convert_to_list(df[col])
 
 # Create the connection to PostgreSQL
-engine = create_engine('postgresql://wowbagger:123456@localhost:5432/kanji-db')
+database_url = os.getenv("DATABASE_URL").split("?", 1)[0]
+engine = create_engine(database_url)
 
 # Specify the table name to load the data into
 table_name = 'Kanji'

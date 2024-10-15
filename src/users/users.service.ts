@@ -14,9 +14,10 @@ export class UsersService {
       createUserDto.password,
       userConstants.roundsOfHashing,
     );
-
     createUserDto.password = hashedPassword;
-    return this.prisma.user.create({ data: createUserDto });
+
+    const { passwordConfirm, ...userData } = createUserDto;
+    return this.prisma.user.create({ data: userData });
   }
 
   findAll() {

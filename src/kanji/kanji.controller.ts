@@ -8,10 +8,16 @@ import {
   ParseIntPipe,
   NotFoundException,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { KanjiService } from './kanji.service';
 import { UpdateKanjiDto } from './dto/update-kanji.dto';
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiTags,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { KanjiEntity } from './entities/kanji.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
@@ -21,19 +27,53 @@ export class KanjiController {
   constructor(private readonly kanjiService: KanjiService) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page number',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'perPage',
+    required: false,
+    type: Number,
+    description: 'Results per page',
+    example: 100,
+  })
   @ApiOkResponse({ type: KanjiEntity, isArray: true })
-  findAll() {
-    return this.kanjiService.findAll();
+  findAll(
+    @Query('page', ParseIntPipe) page: number = 1,
+    @Query('perPage', ParseIntPipe) perPage: number = 100,
+  ) {
+    return this.kanjiService.findAll(page, perPage);
   }
 
-  @Get()
+  @Get('base')
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page number',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'perPage',
+    required: false,
+    type: Number,
+    description: 'Results per page',
+    example: 100,
+  })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: KanjiEntity, isArray: true })
-  findBase() {
-    return this.kanjiService.findAll();
+  findBase(
+    @Query('page', ParseIntPipe) page: number = 1,
+    @Query('perPage', ParseIntPipe) perPage: number = 10,
+  ) {
+    return this.kanjiService.findAll(page, perPage);
   }
 
   @Get(':id')

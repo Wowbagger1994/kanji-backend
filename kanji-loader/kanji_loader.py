@@ -166,6 +166,6 @@ df[['literal', 'codepoint_ucs', 'codepoint_jis208', 'radical_classical',
     'radical_nelson_c', 'grade', 'stroke_count',
     'dic_number_classical', 'dic_number_nelson_c', 'reading_ja_on',
     'reading_ja_kun', 'meaning_en', 'meaning_fr', 'meaning_es',
-    'meaning_pt', 'nanori']].to_sql(table_name, engine, if_exists='replace', index=False)
+    'meaning_pt', 'nanori']].to_sql(table_name, engine, if_exists='append', index=False)
 
 print(f"Dati caricati correttamente nella tabella '{table_name}'")

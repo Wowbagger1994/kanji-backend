@@ -1,4 +1,4 @@
-import { Injectable, Param } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UpdateKanjiDto } from './dto/update-kanji.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -6,12 +6,19 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class KanjiService {
   constructor(private prisma: PrismaService) {}
 
-  findAll() {
-    return this.prisma.kanji.findMany();
+  findAll(page: number, perPage: number) {
+    return this.prisma.kanji.findMany({
+      skip: (page - 1) * perPage,
+      take: perPage,
+    });
   }
 
-  findBase() {
-    return this.prisma.kanji.findMany({ where: { is_base: true } });
+  findBase(page: number, perPage: number) {
+    return this.prisma.kanji.findMany({
+      skip: (page - 1) * perPage,
+      take: perPage,
+      where: { is_base: true },
+    });
   }
 
   findOneById(id: number) {

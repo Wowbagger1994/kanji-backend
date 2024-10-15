@@ -88,7 +88,7 @@ run-kanji-backend:
 	$(call print_result, Backend executed successfully., Failed to execute backend.)
 
 # Full setup and execution
-all: install-python-requirements install-npm docker-compose-up prisma-migrate run-kanji-loader
+all: install-python-requirements install-npm docker-compose-up prisma-migrate run-kanji-loader run-kanji-backend
 
 # Run Docker Compose
 up: docker-compose-up

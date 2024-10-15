@@ -1,74 +1,134 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Kanji Loader Makefile
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This repository contains a Makefile for setting up and managing the Kanji Loader application. The Makefile automates several tasks, including the installation of Python and npm dependencies, running Docker Compose, executing Prisma migrations, and running the Kanji loader script. This helps streamline the development and deployment processes.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Table of Contents
 
-## Description
+- [Prerequisites](#prerequisites)
+- [Environment Variables](#environment-variables)
+- [Makefile Targets](#makefile-targets)
+  - [Install Python Requirements](#install-python-requirements)
+  - [Install npm Packages](#install-npm-packages)
+  - [Run Docker Compose](#run-docker-compose)
+  - [Run Prisma Migrations](#run-prisma-migrations)
+  - [Run Kanji Loader](#run-kanji-loader)
+  - [Start Backend](#start-backend)
+  - [Full Setup and Execution](#full-setup-and-execution)
+  - [Clean Up](#clean-up)
+  - [Force Clean](#force-clean)
+- [Logging](#logging)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Prerequisites
 
-## Installation
+Before using this Makefile, ensure you have the following installed on your system:
 
-```bash
-$ npm install
-```
+- **Docker**: A platform to develop, ship, and run applications in containers. [Get started with Docker](https://www.docker.com/get-started).
+- **Docker Compose**: A tool for defining and running multi-container Docker applications. [Installation guide](https://docs.docker.com/compose/install/).
+- **Node.js**: A JavaScript runtime built on Chrome's V8 JavaScript engine. [Download Node.js](https://nodejs.org/).
+- **Python 3**: The programming language used for the Kanji loader script. [Download Python 3](https://www.python.org/downloads/).
+- **Pip**: A package manager for Python that allows you to install and manage additional libraries and dependencies. It typically comes with Python installations.
 
-## Running the app
+## Environment Variables
+
+You need to create a `.env` file in the root directory with the following placeholders and your respective values. This file is crucial for connecting to your database and managing authentication:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+DATABASE_URL="postgresql://<USERNAME>:<PASSWORD>@localhost:5432/<DATABASE_NAME>?schema=public"
+JWT_SECRET="<YOUR_JWT_SECRET>"
+ROUNDS_OF_HASHING=<NUMBER_OF_HASHING_ROUNDS>
 ```
 
-## Test
+- DATABASE_URL: The connection string for your PostgreSQL database. Adjust the username, password, and database name accordingly.
+
+* JWT_SECRET: A secret key used for signing JSON Web Tokens (JWT) for secure authentication.
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+openssl rand -base64 32
 ```
 
-## Support
+- ROUNDS_OF_HASHING: The number of hashing rounds for password hashing, which affects the security of stored passwords. (ex. 10)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Makefile Targets
 
-## Stay in touch
+The Makefile provides several targets that you can run to manage your application easily. Each target corresponds to a specific task:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# Install Python Requirements
 
-## License
+Install Python dependencies defined in requirements.txt. This is necessary to ensure that the Kanji loader script has all the required libraries.
 
-Nest is [MIT licensed](LICENSE).
-# kanji-backend
+```bash
+make install-python-requirements
+```
+
+# Install npm Packages
+
+Install npm packages defined in package.json. This step prepares the Node.js environment for the backend server.
+
+```bash
+make install-npm
+```
+
+# Run Docker Compose
+
+Start the Docker containers defined in docker-compose.yml. This command sets up the necessary services for your application, such as databases and other dependencies.
+
+```bash
+make up
+```
+
+# Run Prisma Migrations
+
+Execute Prisma migrations to set up your database schema. This step is crucial for applying any changes to your database structure.
+
+```bash
+make prisma-migrate
+```
+
+# Run Kanji Loader
+
+Execute the Kanji loader script. This script is responsible for loading Kanji data into your database.
+
+```bash
+make run-kanji-loader
+```
+
+# Start Backend
+
+Start the NestJS backend server, which serves your application’s API and handles incoming requests.
+
+```bash
+make start
+```
+
+# Full Setup and Execution
+
+Run all steps (installing dependencies, starting Docker, running migrations, and executing the Kanji loader) in one command. This command simplifies the setup process for development.
+
+```bash
+make all
+```
+
+# Clean Up
+
+Stop running Docker containers and clean up the environment. This command helps to maintain a tidy workspace by stopping services and removing unnecessary files.
+
+```bash
+make clean
+```
+
+# Force Clean
+
+Forcefully remove Docker containers, networks, volumes, and images. Use this command to clear everything related to Docker in case of errors or for a complete reset.
+
+```bash
+make fclean
+```
+
+# Logging
+
+During execution, any errors encountered will be logged into two separate files for easier debugging:
+
+- log_error.log: Contains errors from the general tasks executed by the Makefile.
+
+* log_nest_error.log: Contains errors specifically related to the NestJS backend.
+  Review these logs if you encounter issues during execution.

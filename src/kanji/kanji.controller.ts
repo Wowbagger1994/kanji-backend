@@ -27,8 +27,8 @@ export class KanjiController {
   constructor(private readonly kanjiService: KanjiService) {}
 
   @Get()
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiQuery({
     name: 'page',
     required: false,

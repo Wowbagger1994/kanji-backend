@@ -115,4 +115,10 @@ export class KanjiEntity implements Kanji {
     default: false,
   })
   is_base: boolean; // Indicates if the Kanji character is a base character
+
+  @ApiProperty({
+    description: 'SVG path data for the Kanji character',
+    default: false,
+  })
+  svg_path: string | null; // SVG path data for the Kanji character
 }

@@ -6,7 +6,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class KanjiService {
   constructor(private prisma: PrismaService) {}
 
-  findAll(page: number, perPage: number) {
+  findAll() {
+    return this.prisma.kanji.findMany();
+  }
+
+  findAllPagination(page: number, perPage: number) {
     return this.prisma.kanji.findMany({
       skip: (page - 1) * perPage,
       take: perPage,

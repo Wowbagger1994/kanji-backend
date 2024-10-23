@@ -66,7 +66,7 @@ docker-compose-up:
 # Run Prisma migration
 prisma-migrate:
 	@echo "$(COLOR_BLUE)$(RUN) Running Prisma migrations...$(COLOR_RESET)"
-	@npx $(PRISMA) migrate dev > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
+	@npx $(PRISMA) migrate dev migration > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
 	$(spinner); \
 	wait $$pid; \
 	$(call print_result, Prisma migrations executed successfully., Failed to execute Prisma migrations.)
@@ -82,9 +82,7 @@ run-kanji-loader:
 # Run the nestjs backend
 run-kanji-backend:
 	@echo "$(COLOR_BLUE)$(RUN) Running nestJS backend...$(COLOR_RESET)"
-	@npm run start 2>>$(LOG_NEST_ERROR) & pid=$$!; \
-	$(spinner); \
-	wait $$pid; \
+	@npm run start:dev 2>>$(LOG_NEST_ERROR) & pid=$$!; \
 	$(call print_result, Backend executed successfully., Failed to execute backend.)
 
 # Full setup and execution

@@ -29,6 +29,14 @@ export class KanjiController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
+  @ApiOkResponse({ type: KanjiEntity, isArray: true })
+  findAll() {
+    return this.kanjiService.findAll();
+  }
+
+  @Get('page/:page/perPage/:perPage')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiQuery({
     name: 'page',
     required: false,
@@ -44,11 +52,11 @@ export class KanjiController {
     example: 100,
   })
   @ApiOkResponse({ type: KanjiEntity, isArray: true })
-  findAll(
+  findAllPagination(
     @Query('page', ParseIntPipe) page: number = 1,
     @Query('perPage', ParseIntPipe) perPage: number = 100,
   ) {
-    return this.kanjiService.findAll(page, perPage);
+    return this.kanjiService.findAllPagination(page, perPage);
   }
 
   @Get('base')
@@ -73,10 +81,10 @@ export class KanjiController {
     @Query('page', ParseIntPipe) page: number = 1,
     @Query('perPage', ParseIntPipe) perPage: number = 10,
   ) {
-    return this.kanjiService.findAll(page, perPage);
+    return this.kanjiService.findAll();
   }
 
-  @Get(':id')
+  @Get('id/:id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: KanjiEntity })
@@ -88,7 +96,7 @@ export class KanjiController {
     return kanji;
   }
 
-  @Get(':kanji')
+  @Get('literal/:kanji')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: KanjiEntity })
@@ -111,14 +119,14 @@ export class KanjiController {
     return this.kanjiService.update(+id, updateKanjiDto);
   }
 
-  @Patch(':id')
+  @Patch('/setAsBase:id')
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: KanjiEntity })
   setAsBase(@Param('id', ParseIntPipe) id: number) {
     return this.kanjiService.setAsBase(+id);
   }
 
-  @Patch(':id')
+  @Patch('/setAsNotBase:id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: KanjiEntity })

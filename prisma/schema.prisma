@@ -32,6 +32,7 @@ model Kanji {
   meaning_pt          String[] // Significati in portoghese (array di stringhe)
   nanori              String[] // Varianti di lettura (array di stringhe)
   is_base             Boolean  @default(false) // Indica se il kanji è base
+  svg_path            String?  // Path del file SVG correlato al kanji
 }
 
 model User {

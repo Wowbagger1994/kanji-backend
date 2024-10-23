@@ -32,7 +32,48 @@ export class AuthService {
 
     // Step 3: Generate a JWT containing the user's ID and return it
     return {
-      accessToken: this.jwtService.sign({ userId: user.id }),
+      accessToken: this.jwtService.sign(
+        { userId: user.id },
+        { expiresIn: '15m', secret: process.env.JWT_ACCESS_TOKEN_SECRET },
+      ),
+      refreshToken: this.jwtService.sign(
+        { userId: user.id },
+        { expiresIn: '30d', secret: process.env.JWT_REFRESH_TOKEN_SECRET },
+      ),
+    };
+  }
+
+  //TODO: Uncomment this code to enable refresh token functionality
+  // async refresh(token: string): Promise<AuthEntity> {
+  //   const payload = this.jwtService.verify(token, {
+  //     secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+  //   });
+
+  //   const user = await this.prisma.user.findUnique({
+  //     where: { id: payload.userId },
+  //   });
+
+  //   if (!user) {
+  //     throw new NotFoundException(`No user found for ID: ${payload.userId}`);
+  //   }
+
+  //   return {
+  //     accessToken: this.jwtService.sign(
+  //       { userId: user.id },
+  //       { expiresIn: '15m', secret: process.env.JWT_ACCESS_TOKEN_SECRET },
+  //     ),
+  //     refreshToken: token,
+  //   };
+  // }
+
+  //TODO: Remove this code to enable refresh token functionality
+  async refresh(): Promise<AuthEntity> {
+    return {
+      accessToken: this.jwtService.sign(
+        { userId: 1 },
+        { expiresIn: '15m', secret: process.env.JWT_ACCESS_TOKEN_SECRET },
+      ),
+      refreshToken: '',
     };
   }
 }

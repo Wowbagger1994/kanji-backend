@@ -1,5 +1,6 @@
 import { env } from 'process';
 
 export const jwtConstants = {
-  secret: env.JWT_SECRET,
+  secretAccessToken: env.JWT_ACCESS_TOKEN_SECRET,
+  secretRefreshToken: env.JWT_REFRESH_TOKEN_SECRET,
 };

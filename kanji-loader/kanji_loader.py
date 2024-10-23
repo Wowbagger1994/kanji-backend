@@ -37,6 +37,11 @@ def extract_data(root):
         cp_type = cp_value["cp_type"]
         if cp_type == "ucs":
             parsed_data["codepoint_ucs"] = cp_value.text
+            parsed_data["codepoint_ucs"] = parsed_data["codepoint_ucs"].lower()
+            parsed_data["codepoint_ucs"] = parsed_data["codepoint_ucs"].strip()
+            kanji_folder = "kanji"
+            svg_file = os.path.join(kanji_folder, f'0{parsed_data["codepoint_ucs"]}.svg')
+            parsed_data["svg_path"] = svg_file
         elif cp_type == "jis208":
             parsed_data["codepoint_jis208"] = cp_value.text
 

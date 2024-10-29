@@ -66,7 +66,7 @@ docker-compose-up:
 # Run Prisma migration
 prisma-migrate:
 	@echo "$(COLOR_BLUE)$(RUN) Running Prisma migrations...$(COLOR_RESET)"
-	@npx $(PRISMA) migrate dev migration > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
+	@npx $(PRISMA) migrate dev --name "init" > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
 	$(spinner); \
 	wait $$pid; \
 	$(call print_result, Prisma migrations executed successfully., Failed to execute Prisma migrations.)
@@ -79,14 +79,31 @@ run-kanji-loader:
 	wait $$pid; \
 	$(call print_result, kanji_loader.py executed successfully., Failed to execute kanji_loader.py.)
 
+# Run Prisma seed
+prisma-seed:
+	@echo "$(COLOR_BLUE)$(RUN) Running Prisma migrations...$(COLOR_RESET)"
+	@npx $(PRISMA) db seed > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
+	$(spinner); \
+	wait $$pid; \
+	$(call print_result, Prisma migrations executed successfully., Failed to execute Prisma migrations.)
+
 # Run the nestjs backend
 run-kanji-backend:
 	@echo "$(COLOR_BLUE)$(RUN) Running nestJS backend...$(COLOR_RESET)"
-	@npm run start:dev 2>>$(LOG_NEST_ERROR) & pid=$$!; \
+	@npm run start:pm2:dev 2>>$(LOG_NEST_ERROR) & pid=$$!; \
 	$(call print_result, Backend executed successfully., Failed to execute backend.)
 
+stop-kanji-backend:
+	@echo "$(COLOR_BLUE)$(RUN) Stopping nestJS backend...$(COLOR_RESET)"
+	@-npm run stop > /dev/null 2>>$(LOG_NEST_ERROR) & pid=$$!; \
+	$(spinner); \
+	wait $$pid; \
+	$(call print_result, Backend stopped successfully., Failed to stop backend.)
+
+stop: stop-kanji-backend
+
 # Full setup and execution
-all: install-python-requirements install-npm docker-compose-up prisma-migrate run-kanji-loader run-kanji-backend
+all: install-python-requirements install-npm docker-compose-up prisma-migrate run-kanji-loader prisma-seed run-kanji-backend
 
 # Run Docker Compose
 up: docker-compose-up
@@ -103,8 +120,12 @@ down:
 	$(call print_result, Docker containers stopped., Failed to stop Docker containers.)
 
 # Clean up the environment
-clean: down
+clean: down stop
 	@echo "$(COLOR_YELLOW)$(RUN) Cleaning up environment...$(COLOR_RESET)"
+	@find . -name '*.csv' -exec rm -rf {} + > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
+	$(spinner); \
+	wait $$pid; \
+	$(call print_result, CSV cleaned., Failed to clean CSV.)
 	@rm -rf node_modules > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
 	$(spinner); \
 	wait $$pid; \
@@ -117,7 +138,7 @@ clean: down
 	$(spinner); \
 	wait $$pid; \
 	$(call print_result, .pyc files cleaned., Failed to clean .pyc files.)
-	@rm -rf migrations > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
+	@rm -rf prisma/migrations > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
 	$(spinner); \
 	wait $$pid; \
 	$(call print_result, migrations cleaned., Failed to clean migrations.)

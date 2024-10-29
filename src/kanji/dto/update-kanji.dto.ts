@@ -60,13 +60,13 @@ export class UpdateKanjiDto {
 
   @IsOptional()
   @IsString()
-  @ApiProperty({ type: String, description: 'On readings in Japanese' })
-  reading_ja_on?: string; // On reading in Japanese, optional
+  @ApiProperty({ type: [String], description: 'On readings in Japanese' })
+  reading_ja_on?: string[]; // On reading in Japanese, optional
 
   @IsOptional()
   @IsString()
-  @ApiProperty({ type: String, description: 'Kun readings in Japanese' })
-  reading_ja_kun?: string; // Kun reading in Japanese, optional
+  @ApiProperty({ type: [String], description: 'Kun readings in Japanese' })
+  reading_ja_kun?: string[]; // Kun reading in Japanese, optional
 
   @IsOptional()
   @IsArray()

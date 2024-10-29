@@ -24,8 +24,8 @@ model Kanji {
   stroke_count        Int      // Numero di tratti
   dic_number_classical Int?    // Numero del dizionario classico, può essere NULL
   dic_number_nelson_c Int?     // Numero del dizionario Nelson, può essere NULL
-  reading_ja_on       String?  // Lettura on giapponese, opzionale
-  reading_ja_kun      String?  // Lettura kun giapponese, opzionale
+  reading_ja_on       String[]  // Lettura on giapponese (array di stringhe)
+  reading_ja_kun      String[]  // Lettura kun giapponese (array di stringhe)
   meaning_en          String[] // Significati in inglese (array di stringhe)
   meaning_fr          String[] // Significati in francese (array di stringhe)
   meaning_es          String[] // Significati in spagnolo (array di stringhe)
@@ -33,6 +33,41 @@ model Kanji {
   nanori              String[] // Varianti di lettura (array di stringhe)
   is_base             Boolean  @default(false) // Indica se il kanji è base
   svg_path            String?  // Path del file SVG correlato al kanji
+
+  // Relationships
+  relationships1      KanjiRelationship[] @relation("Kanji1")
+  relationships2      KanjiRelationship[] @relation("Kanji2")
+  relationshipsResult KanjiRelationship[] @relation("KanjiResult")
+}
+
+enum RelationType {
+  literal
+  logic
+}
+
+enum RadicalType {
+  tradit
+  general
+  nelson
+}
+
+model KanjiRelationship {
+  id                         Int      @id @default(autoincrement())
+  kanji_result_id            Int
+  kanji1_id                  Int?
+  kanji1_literal             String?
+  kanji2_id                  Int?
+  kanji2_literal             String?
+  codepoint_ucs_res          String
+  radical_type               RadicalType?
+  relation_type              RelationType?
+
+ // Relationships
+  kanji_result               Kanji  @relation("KanjiResult", fields: [kanji_result_id], references: [id])
+  kanji1                     Kanji?  @relation("Kanji1", fields: [kanji1_id], references: [id])
+  kanji2                     Kanji?  @relation("Kanji2", fields: [kanji2_id], references: [id])
+  // TODO: remove comment below
+  // @@unique([kanji1_id, kanji2_id], name: "unique_kanji_relationship")
 }
 
 model User {

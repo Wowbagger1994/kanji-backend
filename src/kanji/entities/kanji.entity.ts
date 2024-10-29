@@ -71,14 +71,14 @@ export class KanjiEntity implements Kanji {
     required: false,
     nullable: true,
   })
-  reading_ja_on: string | null; // On reading in Japanese (optional)
+  reading_ja_on: string[] | null; // On reading in Japanese (optional)
 
   @ApiProperty({
     description: 'Kun reading in Japanese (optional)',
     required: false,
     nullable: true,
   })
-  reading_ja_kun: string | null; // Kun reading in Japanese (optional)
+  reading_ja_kun: string[] | null; // Kun reading in Japanese (optional)
 
   @ApiProperty({
     description: 'English meanings (array of strings)',

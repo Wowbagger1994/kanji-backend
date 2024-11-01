@@ -43,14 +43,20 @@ export class KanjiRelationshipsService {
 
   update(id: number, updateKanjiRelationshipDto: UpdateKanjiRelationshipDto) {
     if (
+      updateKanjiRelationshipDto.kanji1_id &&
+      updateKanjiRelationshipDto.kanji2_id &&
       updateKanjiRelationshipDto.kanji1_id ===
-      updateKanjiRelationshipDto.kanji2_id
+        updateKanjiRelationshipDto.kanji2_id
     ) {
       throw new Error('Kanji cannot be related to itself');
     }
     if (
-      updateKanjiRelationshipDto.kanji1_id >
-      updateKanjiRelationshipDto.kanji2_id
+      (!updateKanjiRelationshipDto.kanji1_id &&
+        updateKanjiRelationshipDto.kanji2_id) ||
+      (updateKanjiRelationshipDto.kanji1_id &&
+        updateKanjiRelationshipDto.kanji2_id &&
+        updateKanjiRelationshipDto.kanji1_id >
+          updateKanjiRelationshipDto.kanji2_id)
     ) {
       const temp = updateKanjiRelationshipDto.kanji1_id;
       updateKanjiRelationshipDto.kanji1_id =

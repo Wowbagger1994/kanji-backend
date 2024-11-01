@@ -19,7 +19,7 @@ import {
   ApiQuery,
   ApiCreatedResponse,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { KanjiRelationshipEntity } from './entities/kanji-relationships.entity';
 @ApiTags('kanji-relationships')
 @Controller('kanjirel')

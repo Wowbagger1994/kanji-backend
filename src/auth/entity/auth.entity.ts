@@ -1,10 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 export class AuthEntity {
   @ApiProperty()
+  user: UserEntity;
+
+  @ApiProperty()
   accessToken: string;
 
-  @Exclude()
+  @ApiProperty()
   refreshToken: string;
+
+  @ApiProperty()
+  expiresIn: number;
 }

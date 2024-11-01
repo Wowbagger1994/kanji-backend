@@ -1,47 +1,39 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiCookieAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBasicAuth,
+  ApiCookieAuth,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthEntity } from './entity/auth.entity';
-import { LoginDto } from './dto/login.dto';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply } from 'fastify';
+import { LocalAuthGuard } from './guards/local.auth.guards';
+import { User } from '@prisma/client';
+import { CurrentUser } from './current-user.decorator';
+import { RefreshTokenAuthGuard } from './guards/refresh-token.guard';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
+  @ApiBasicAuth()
   @ApiOkResponse({ type: AuthEntity })
-  async login(@Body() { email, password }: LoginDto, @Res() res: FastifyReply) {
-    const tokens = await this.authService.login(email, password);
-    res.setCookie('refreshToken', tokens.refreshToken, {
-      httpOnly: process.env.NODE_ENV === 'production', // Prevents access by JavaScript
-      secure: process.env.NODE_ENV === 'production', // Set to true in production (HTTPS)
-      sameSite: 'none', // Protects against CSRF
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-      path: '/',
-    });
-    res
-      .header('Access-Control-Allow-Origin', 'http://localhost:8081')
-      .header('Access-Control-Allow-Headers', 'true');
-
-    return res.send({ accessToken: tokens.accessToken });
+  async login(@CurrentUser() user: User, @Res() res: FastifyReply) {
+    const data = await this.authService.login(user, res);
+    return res.send(data);
   }
 
-  //TODO: Uncomment this code to enable refresh token functionality
-  // @Post('refresh')
-  // @ApiCookieAuth()
-  // @ApiOkResponse({ type: AuthEntity })
-  // async refresh(@Req() req: FastifyRequest) {
-  //   const refreshToken = req.cookies.refreshToken;
-  //   return await this.authService.refresh(refreshToken);
-  // }
-
-  //TODO: Remove this code to enable refresh token functionality
+  @UseGuards(RefreshTokenAuthGuard)
   @Post('refresh')
+  @ApiCookieAuth()
   @ApiOkResponse({ type: AuthEntity })
-  async refresh(@Req() req: FastifyRequest) {
-    return await this.authService.refresh();
+  async refresh(@CurrentUser() user: User, @Res() res: FastifyReply) {
+    const data = await this.authService.refresh(user, res);
+    return res.send(data);
   }
 
   @Post('logout')

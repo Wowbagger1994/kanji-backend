@@ -1,6 +1,6 @@
 import { PrismaClient, RadicalType, RelationType } from '@prisma/client';
-import * as data from '../data/kanji.json';
-import * as dataRelations from '../data/kanji_relationships.json';
+import data from '../data/kanji.json';
+import dataRelations from '../data/kanji_relationships.json';
 import { userConstants } from '../src/users/constants';
 import * as bcrypt from 'bcrypt';
 

@@ -9,6 +9,7 @@ This repository contains kanji backend.
 - [Makefile Targets](#makefile-targets)
   - [Full Setup and Execution](#full-setup-and-execution)
   - [Start Backend](#start-backend)
+  - [Stop Backend](#stop-backend)
   - [Clean Up](#clean-up)
   - [Force Clean](#force-clean)
   - [Install Python Requirements](#install-python-requirements)
@@ -63,6 +64,14 @@ make all
 # Start Backend
 
 Start the NestJS backend server, which serves your application’s API and handles incoming requests.
+
+```bash
+make start
+```
+
+# Stop Backend
+
+Stop the NestJS backend server, which serves your application’s API and handles incoming requests.
 
 ```bash
 make start

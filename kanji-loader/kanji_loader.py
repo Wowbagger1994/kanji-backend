@@ -258,11 +258,14 @@ def format_dataframe(df_rel, df):
         if not pd.isna(row['kanji1_id']) and not pd.isna(row['kanji2_id']):
             if row['kanji1_id'] > row['kanji2_id']:
                 df_rel.at[index, 'kanji1_id'], df_rel.at[index, 'kanji2_id'] = row['kanji2_id'], row['kanji1_id']
+                row['kanji1_id'], row['kanji2_id'] = row['kanji2_id'], row['kanji1_id']
 
         # If kanji1_id is NaN but kanji2_id is not, move kanji2_id to kanji1_id and set kanji2_id to NaN
         if pd.isna(row['kanji1_id']) and not pd.isna(row['kanji2_id']):
             df_rel.at[index, 'kanji1_id'] = row['kanji2_id']
             df_rel.at[index, 'kanji2_id'] = np.nan
+            row['kanji1_id'] = row['kanji2_id']
+            row['kanji2_id'] = np.nan
 
         # Update kanji1_id based on 'literal' from df
         if not pd.isna(df_rel.at[index, 'kanji1_id']):

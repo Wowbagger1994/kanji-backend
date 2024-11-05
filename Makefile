@@ -81,7 +81,7 @@ run-kanji-loader:
 
 # Run Prisma seed
 prisma-seed:
-	@echo "$(COLOR_BLUE)$(RUN) Running Prisma migrations...$(COLOR_RESET)"
+	@echo "$(COLOR_BLUE)$(RUN) Running Prisma seed...$(COLOR_RESET)"
 	@npx $(PRISMA) db seed > /dev/null 2>>$(LOG_ERROR) & pid=$$!; \
 	$(spinner); \
 	wait $$pid; \

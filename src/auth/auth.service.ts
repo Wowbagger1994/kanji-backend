@@ -21,13 +21,13 @@ export class AuthService {
       user: user,
       accessToken: this.jwtService.sign(
         { userId: user.id },
-        { expiresIn: '20s', secret: process.env.JWT_ACCESS_TOKEN_SECRET },
+        { expiresIn: '1d', secret: process.env.JWT_ACCESS_TOKEN_SECRET },
       ),
       refreshToken: this.jwtService.sign(
         { userId: user.id },
         { expiresIn: '30d', secret: process.env.JWT_REFRESH_TOKEN_SECRET },
       ),
-      expiresIn: new Date().setTime(new Date().getTime() + ms('20s')),
+      expiresIn: new Date().setTime(new Date().getTime() + ms('1d')),
     };
 
     return data;
@@ -42,13 +42,13 @@ export class AuthService {
       user: user,
       accessToken: this.jwtService.sign(
         { userId: user.id },
-        { expiresIn: '20s', secret: process.env.JWT_ACCESS_TOKEN_SECRET },
+        { expiresIn: '1d', secret: process.env.JWT_ACCESS_TOKEN_SECRET },
       ),
       refreshToken: this.jwtService.sign(
         { userId: user.id },
         { expiresIn: '30d', secret: process.env.JWT_REFRESH_TOKEN_SECRET },
       ),
-      expiresIn: new Date().setTime(new Date().getTime() + ms('20s')),
+      expiresIn: new Date().setTime(new Date().getTime() + ms('1d')),
     };
 
     return data;

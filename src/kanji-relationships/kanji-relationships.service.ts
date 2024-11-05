@@ -30,6 +30,7 @@ export class KanjiRelationshipsService {
 
   findAll() {
     return this.prisma.kanjiRelationship.findMany({
+      orderBy: { kanji_result_id: 'asc' },
       include: { kanji_result: true, kanji1: true, kanji2: true },
     });
   }
@@ -65,6 +66,7 @@ export class KanjiRelationshipsService {
     }
     return this.prisma.kanjiRelationship.update({
       where: { id },
+      include: { kanji_result: true, kanji1: true, kanji2: true },
       data: {
         kanji1: {
           connect: {

@@ -25,6 +25,7 @@ export class KanjiRelationshipsService {
     }
     return this.prisma.kanjiRelationship.create({
       data: createKanjiRelationshipDto,
+      include: { kanji_result: true, kanji1: true, kanji2: true },
     });
   }
 
